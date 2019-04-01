@@ -40,16 +40,19 @@ class Router
         {
             //get named capture group values
             $params = [];
+
             foreach ($matches as $key => $match)
             {
                 if (is_string($key))
                 {
-                    $params[$key] = $params;
+                    $params[$key] = $match;
                 }
             }
             $this->params = $params;
             return true;
         }
+
+        return false;
     }
 
     //Get the currently matched parameters
