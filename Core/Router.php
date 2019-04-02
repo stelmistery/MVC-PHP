@@ -2,12 +2,17 @@
 
 class Router
 {
-    //Associative array of routes
-    // @var array
+    /*
+     * Associative array of routes
+     * @var array
+     */
     protected $routes = [];
 
-    //Parameters from the matched rout
-    //@var array
+    /*
+     * Parameters from the matched rout
+     * @var array
+     */
+
     protected $params = [];
 
     // Add rout to the routing table
@@ -50,8 +55,8 @@ class Router
         }
         return false;*/
 
-        //Match to the fixed URL format /controller/action
-        //$reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+$)/";
+        /*Match to the fixed URL format /controller/action
+        $reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+$)/";*/
 
         foreach ($this->routes as $route => $params)
         {
@@ -79,7 +84,6 @@ class Router
      *
      *
      * @param string $url the route URL
-     *
      * @return void
      */
 
