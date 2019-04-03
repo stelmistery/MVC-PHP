@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-Class Posts
+Class Posts extends \Core\Controller
 {
     /*
      * Show index page
@@ -11,8 +11,8 @@ Class Posts
     public function index()
     {
         echo "Hello from the index action in the Posts controller";
-        echo "<p>Query string parameters: <pre>".
-            htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
+//        echo "<p>Query string parameters: <pre>".
+//            htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
     }
 
     /*
@@ -23,5 +23,12 @@ Class Posts
     public function addNew()
     {
         echo "Hello from the index action in the Posts controller(method addNew())";
+    }
+
+    public function edit()
+    {
+        echo "Hello from the edit action in the Posts controller!";
+        echo "<p>Route parameters: <pre>" .
+            htmlspecialchars(print_r($this->route_params, true)) . "</pre></p>";
     }
 }
