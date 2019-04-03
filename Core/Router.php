@@ -14,7 +14,6 @@ class Router
      * Parameters from the matched rout
      * @var array
      */
-
     protected $params = [];
 
     // Add rout to the routing table
@@ -88,9 +87,10 @@ class Router
      * @param string $url the route URL
      * @return void
      */
-
     public function dispatch($url)
     {
+        $url = $this->removeQueryStringVariables($url);
+
         if ($this->match($url))
         {
             $controller = $this->params['controller'];
@@ -140,6 +140,26 @@ class Router
     protected function convertToCamelCase($string)
     {
         return lcfirst($this->convertToStudlyCaps($string));
+    }
+
+    /*
+     * @param string $url The full URL
+     * @return string The URL with the query string variables removed
+     */
+    protected function removeQueryStringVariables($url)
+    {
+        if ($url != '')
+        {
+            $parts = explode('&', $url, 2);
+
+            if (strpos($parts[0], '=') === false)
+            {
+                $url = $parts[0];
+            } else {
+                $url = '';
+            }
+        }
+        return $url;
     }
 }
 

@@ -14,7 +14,6 @@
  */
 //require '../Core/Router.php';
 
-
 /*
  * Autoloader
  */
