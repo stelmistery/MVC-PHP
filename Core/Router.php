@@ -4,13 +4,13 @@ namespace Core;
 
 class Router
 {
-    /*
+    /**
      * Associative array of routes
      * @var array
      */
     protected $routes = [];
 
-    /*
+    /**
      * Parameters from the matched rout
      * @var array
      */
@@ -29,7 +29,7 @@ class Router
         $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
 
         //Add start and end delimiters, and  case insensitive flag
-        $route = '/^'.$route.'$/i';
+        $route = '/^' . $route . '$/i';
 
         $this->routes[$route] = $params;
     }
@@ -39,6 +39,7 @@ class Router
     {
         return $this->routes;
     }
+
     //Get the currently matched parameters
     public function getParams()
     {
@@ -59,17 +60,13 @@ class Router
         /*Match to the fixed URL format /controller/action
         $reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+$)/";*/
 
-        foreach ($this->routes as $route => $params)
-        {
-            if(preg_match($route, $url, $matches))
-            {
+        foreach ($this->routes as $route => $params) {
+            if (preg_match($route, $url, $matches)) {
                 //get named capture group values
                 //$params = [];
 
-                foreach ($matches as $key => $match)
-                {
-                    if (is_string($key))
-                    {
+                foreach ($matches as $key => $match) {
+                    if (is_string($key)) {
                         $params[$key] = $match;
                     }
                 }
@@ -81,7 +78,7 @@ class Router
     }
 
 
-    /*
+    /**
      * @param string $url the route URL
      * @return void
      */
@@ -89,21 +86,19 @@ class Router
     {
         $url = $this->removeQueryStringVariables($url);
 
-        if ($this->match($url))
-        {
+        if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
-            $controller = "App\Controllers\\$controller";
+//            $controller = "App\Controllers\\$controller";
+            $controller = $this->getNamespace() . $controller;
 
-            if (class_exists($controller))
-            {
+            if (class_exists($controller)) {
                 $controller_object = new $controller($this->params);
 
                 $action = $this->params['action'];
                 $action = $this->convertToCamelCase($action);
 
-                if (is_callable([$controller_object, $action]))
-                {
+                if (is_callable([$controller_object, $action])) {
                     $controller_object->$action();
 
                 } else {
@@ -113,22 +108,22 @@ class Router
             } else {
                 echo "Controller class $controller not found";
             }
-
         }
     }
 
-    /*
+    /**
      * Convert the string with hyphens to StudlyCaps,
      * e.g. post-autors => PostAutors
      *
      * @param string $string The string to convert
+     * @return string
      */
     protected function convertToStudlyCaps($string)
     {
         return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
     }
 
-    /*
+    /**
      * Convert the string with hyphens to camelCase,
      * e.g. add-new => addNew
      *
@@ -140,24 +135,36 @@ class Router
         return lcfirst($this->convertToStudlyCaps($string));
     }
 
-    /*
+    /**
      * @param string $url The full URL
      * @return string The URL with the query string variables removed
      */
     protected function removeQueryStringVariables($url)
     {
-        if ($url != '')
-        {
+        if ($url != '') {
             $parts = explode('&', $url, 2);
 
-            if (strpos($parts[0], '=') === false)
-            {
+            if (strpos($parts[0], '=') === false) {
                 $url = $parts[0];
             } else {
                 $url = '';
             }
         }
         return $url;
+    }
+
+    /**
+     * Get the namespace for the controller class. The namespace defined in the
+     * route parameters is added if present
+     * @return string The request URL
+     */
+    protected function getNamespace()
+    {
+        $namespace = 'App\Controllers\\';
+        if (array_key_exists('namespace', $this->params)) {
+            $namespace .= $this->params['namespace'] . "\\";
+        }
+        return $namespace;
     }
 }
 

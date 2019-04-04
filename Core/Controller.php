@@ -28,11 +28,9 @@ abstract class Controller
     {
         $method = $name . "Action";
 
-        if (method_exists($this, $method))
-        {
-            if ($this->before() !== false)
-            {
-                call_user_func_array([$this,$method], $arguments);
+        if (method_exists($this, $method)) {
+            if ($this->before() !== false) {
+                call_user_func_array([$this, $method], $arguments);
                 $this->after();
             }
         } else {
