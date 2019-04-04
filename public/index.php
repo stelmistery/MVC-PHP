@@ -1,7 +1,7 @@
 <?php
 /**
- *   Front Controller
- *   PHP 7.2
+ *  Front Controller
+ *  PHP 7.2
  */
 
 /*
