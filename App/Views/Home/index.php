@@ -8,24 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Output escaping</h1>
-<?
-
-// Display the result of submitting the form
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "Hello, " . htmlspecialchars($_POST['name']);
-}
-
-?>
-
-<form method="post">
-    <div>
-        <label for="name">Your name</label>
-        <input type="text" id="name" name="name" autofocus>
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
-</form>
+<h1>Welcome</h1>
+<p>Hello <? echo htmlspecialchars($name); ?>!</p>
+<ul>
+    <? foreach ($colours as $colour) { ?>
+        <li><? echo htmlspecialchars($colour); ?></li>
+    <? } ?>
+</ul>
 </body>
 </html>
