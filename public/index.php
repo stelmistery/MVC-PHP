@@ -14,6 +14,12 @@
  */
 //require '../Core/Router.php';
 
+/**
+ * Twig
+ */
+require_once '../vendor/autoload.php';
+
+
 /*
  * Autoloader
  */
