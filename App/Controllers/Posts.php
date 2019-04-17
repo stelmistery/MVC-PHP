@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controllers;
+
 use \Core\View;
+use App\Models\Post;
 
 Class Posts extends \Core\Controller
 {
@@ -11,9 +13,8 @@ Class Posts extends \Core\Controller
      */
     public function indexAction()
     {
-//        echo "<p>Query string parameters: <pre>".
-//            htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
-        View::renderTemplate('Posts/index.php');
+        $posts = Post::getAll();
+        View::renderTemplate('Posts/index.html.twig', ['posts' => $posts]);
     }
 
     /*
