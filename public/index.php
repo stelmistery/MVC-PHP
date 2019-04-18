@@ -8,6 +8,12 @@ require_once '../vendor/autoload.php';
 
 $router = new \Core\Router();
 
+/**
+ * Error and Exception handling
+ */
+set_error_handler('Core\Error::errorHandler');
+set_exception_handler('Core\Error::exceptionHandler');
+
 /*
  * Add the routes in routes table
  */
